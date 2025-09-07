@@ -1,7 +1,7 @@
 # CloudChain
 [![PyPI version](https://img.shields.io/pypi/v/cloudchain-cli.svg)](https://pypi.org/project/cloudchain-cli/)
 
-> Single-Chain Google Drive Backup Manager A deterministic, account-chain approach to managing unlimited Google Drive backups. DO NOT USE IN AN ATTEMPT TO ABUSE TOC's.
+> Single-Chain Google Drive Backup Manager A deterministic, account-chain approach to managing backups. DO NOT USE IN AN ATTEMPT TO ABUSE TOC's.
 
 ---
 
