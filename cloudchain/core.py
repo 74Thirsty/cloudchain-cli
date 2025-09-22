@@ -257,6 +257,17 @@ def _human_eta(seconds: float | None) -> str:
     s = int(seconds); h, r = divmod(s, 3600); m, s = divmod(r, 60)
     return f"{h}h {m:02d}m" if h else f"{m:02d}m {s:02d}s"
 
+def _format_quota_summary(used: int, limit: int, pct: float) -> str:
+    used_str = _human_bytes(used)
+    if limit <= 0:
+        return f"Storage: {used_str} used • Unlimited remaining"
+    remaining_str = _human_bytes(max(limit - used, 0))
+    limit_str = _human_bytes(limit)
+    return (
+        f"Storage: {used_str} used • {remaining_str} remaining "
+        f"({pct * 100:.1f}% of {limit_str})"
+    )
+
 def _parse_indices(expr: str, max_len: int) -> List[int]:
     out = set()
     for part in expr.split(","):
@@ -454,6 +465,12 @@ def show_current_account():
     account = reg["current_account"]
     console.print(f"[cyan]Current account:[/] {account}@{reg.get('domain','gmail.com')}")
     console.print(f"Local backup folder: {account_dir_local(account)}")
+    try:
+        used, limit, pct = check_quota(account)
+    except Exception as exc:
+        console.print(f"[yellow]Unable to retrieve storage details:[/] {exc}")
+    else:
+        console.print(_format_quota_summary(used, limit, pct))
 
 def switch_account():
     reg = load_registry()
